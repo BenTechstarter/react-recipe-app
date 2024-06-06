@@ -1,25 +1,35 @@
-import logo from './logo.svg';
+
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Main from './components/Main';
 import './App.css';
 
-function App() {
+const App = () => {
+  const [theme, setTheme] = useState('light');
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className={`flex flex-col min-h-screen ${theme === 'dark' ? 'dark' : ''}`}>
+        <Header />
+        <main className="flex-grow">
+          <button
+            className="m-4 p-2 bg-gray-200 dark:bg-gray-800 text-black dark:text-white rounded"
+            onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+          >
+            Switch Theme
+          </button>
+          <Main />
+        </main>
+        <Footer />
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
