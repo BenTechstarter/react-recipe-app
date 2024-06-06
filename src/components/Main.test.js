@@ -2,18 +2,23 @@
 import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
+import { MemoryRouter } from 'react-router-dom';
 import Main from './Main';
+import axios from 'axios'; // Importieren Sie axios
 
-// Mock the fetch function
-global.fetch = jest.fn(() =>
-  Promise.resolve({
-    json: () => Promise.resolve({ data: 'Spaghetti' }),
-  })
-);
+// Mocken Sie den axios-Import
+jest.mock('axios');
 
 test('renders Main component and fetches data', async () => {
-  const { getByText } = render(<Main />);
+  // Mocken Sie die Antwort von axios.get
+  axios.get.mockResolvedValue({ data: 'Spaghetti' });
+
+  const { getByText } = render(
+    <MemoryRouter>
+      <Main />
+    </MemoryRouter>
+  );
   
-  // Assert that the data is rendered correctly after fetching
+  // Überprüfen Sie, ob die Daten nach dem Laden korrekt gerendert werden
   await waitFor(() => expect(getByText('Spaghetti')).toBeInTheDocument());
 });
