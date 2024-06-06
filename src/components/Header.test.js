@@ -6,5 +6,5 @@ import Header from './Header';
 
 test('renders Header component', () => {
   const { getByText } = render(<Header />);
-  expect(getByText('Header')).toBeInTheDocument(); // Annahme, dass "Header" ein Text im Header ist
+  expect(getByText('Home')).toBeInTheDocument(); // Annahme, dass "Home" ein Text im Header ist
 });
